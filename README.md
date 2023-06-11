@@ -16,9 +16,10 @@ Happy Testing 🎭!
 ## 🪜 Dependecies
 
 - Playwright v1.35.0
+- dotenv v16.1.4
 - Node v20.3.0
 - npm v9.6.7
-- VSCode 1.77.3 (Universal)
+- VSCode 1.78.2 (Universal)
 
 > Pre requirements:
 
@@ -71,4 +72,3 @@ ___
 💜 If you have questions, feel free to post them on [github](https://github.com/raptatinha/twr-playwright-demo-mtc/issues).
 
 Happy Testing 🎭
-
