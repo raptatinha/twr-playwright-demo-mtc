@@ -1,0 +1,8 @@
+.DS_Store
+node_modules/
+.npm
+.env
+/test-results/
+/playwright-report/
+/playwright/.cache/
+storageState.json

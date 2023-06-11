@@ -1,0 +1,40 @@
+name: Playwright Tests
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  PASSWORD: ${{ secrets.PASSWORD }}
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 16
+        cache: 'npm'
+    - name: Install dependencies
+      run: npm ci
+    - name: Install Playwright Browsers
+      run: npx playwright@1.35.0 install --with-deps
+    - name: Run Playwright tests
+      run: npx playwright test tests/ui/
+      # run: npx playwright test tests/ui/ --project=chromium
+      # run: npm run test-ui-pom
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: index.html
+        path: playwright-report/index.html
+        retention-days: 30
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: test-results/
+        retention-days: 30
