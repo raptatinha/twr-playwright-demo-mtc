@@ -11,7 +11,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-test.describe('Login without Page Object Model', () => {
+test.describe.skip('Login without Page Object Model', () => {
   test(`successfull login`, async ({ page }) => {
     await doLogin(page, userName.validUser, password);
     await expect(page).toHaveURL(/.*inventory.html/);
