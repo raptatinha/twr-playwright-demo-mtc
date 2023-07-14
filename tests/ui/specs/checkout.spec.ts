@@ -1,13 +1,10 @@
-import { test, expect, type Page } from '@playwright/test';
-import pages from '../../utils/pages';
-import userData from '../../data/user-data';
-import productData from '../../data/product-data';
+import { test, expect } from '@playwright/test';
 
 const orderCompletedLabelString = 'Thank you for your order!';
 const orderCompletedTextString = 'Your order has been dispatched, and will arrive just as fast as the pony can get there!';
 
 test.beforeEach(async ({ page }) => {
-    await page.goto(pages.homePage);
+    await page.goto('/inventory.html');
 });
 
 test.describe('Checkout without Page Object Model', () => {
@@ -23,8 +20,8 @@ test.describe('Checkout without Page Object Model', () => {
         });
     
         await test.step('go to cart', async () => {
-            await page.locator('#shopping_cart_container').filter( { hasText: productData.items.toString() }).click();
-            await expect(page.getByRole('button', { name: 'Remove' })).toHaveCount(productData.items);
+            await page.locator('#shopping_cart_container').filter( { hasText: '2' }).click();
+            await expect(page.getByRole('button', { name: 'Remove' })).toHaveCount(2);
         });
     
         await test.step('go to checkout step one', async () => {
@@ -35,16 +32,16 @@ test.describe('Checkout without Page Object Model', () => {
             for (const input of await page.getByRole('textbox').all()){
                 await expect(input).toBeEmpty();
             }
-            await page.getByPlaceholder('First Name').fill(userData.firstName);
-            await page.getByPlaceholder('Last Name').fill(userData.lastName);
-            await page.getByPlaceholder('Zip/Postal Code').fill(userData.zip);
+            await page.getByPlaceholder('First Name').fill('Renatinha');
+            await page.getByPlaceholder('Last Name').fill('Andrade');
+            await page.getByPlaceholder('Zip/Postal Code').fill('2187');
             await page.getByText('Continue', { exact: true }).click();
         });
 
         await test.step('check order info and complete checkout', async () => {
-            await expect(page.getByText('Item total')).toHaveText( productData.orderInfo.itemTotal);
-            await expect(page.getByText('Tax')).toHaveText( productData.orderInfo.tax);
-            await expect(page.getByText('Total:').last()).toHaveText( productData.orderInfo.orderTotal);
+            await expect(page.getByText('Item total')).toHaveText(/.*25.98/);
+            await expect(page.getByText('Tax')).toHaveText(/.*2.08/);
+            await expect(page.getByText('Total:').last()).toHaveText(/.*28.06/);
             await page.getByText('Finish', { exact: true }).click();
         });
 
@@ -60,3 +57,5 @@ test.describe('Checkout without Page Object Model', () => {
         });
     });
 });
+
+

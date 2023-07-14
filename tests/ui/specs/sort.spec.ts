@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import pages from '../../utils/pages';
 
 const sortOptions = {
   az: 'Sauce Labs Backpack',
@@ -9,14 +8,16 @@ const sortOptions = {
 }
 
 test.beforeEach(async ({ page }) => {
-    await page.goto(pages.homePage);
+    await page.goto('/inventory.html');
 });
 
 test.describe('Sort without Page Object Model', () => {
   for(const option in sortOptions){
     test(`successfully sort by ${option}`, async ({page}) => {
-      await page.getByTestId('product_sort_container').selectOption(option);
-      await expect(page.locator('#inventory_container').first()).toContainText(sortOptions[option]);
+      await page.getByTestId('product_sort_container')
+      .selectOption(option);
+      await expect(page.locator('#inventory_container')
+      .first()).toContainText(sortOptions[option]);
     });
   }
 });
