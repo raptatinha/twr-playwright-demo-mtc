@@ -7,7 +7,7 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: 0,
-  workers: undefined,
+  workers: 5,
   reporter: 'html',
   use: {
     baseURL: 'https://www.saucedemo.com/',
